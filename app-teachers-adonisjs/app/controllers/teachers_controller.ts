@@ -12,13 +12,30 @@ export default class TeachersController {
     return view.render('pages/home', { teachers })
   }
   /**
-   * Display form to create a new record
+   * Afficher le formulaire pour créer un nouvel enseignant
    */
-  async create({}: HttpContext) {}
+  async create({ view }: HttpContext) {
+    // Récupération des sections triées par le nom
+    const sections = await Section.query().orderBy('name', 'asc')
+    // Appel de la vue
+    return view.render('pages/teachers/create', { title: "Ajout d'un enseignant", sections })
+  }
+
   /**
-   * Handle form submission for the create action
+   * Gérer la soumission du formulaire pour la création d'un enseignant
    */
-  async store({ request }: HttpContext) {}
+  async store({ request, session, response }: HttpContext) {
+    // Validation des données saisies par l'utilisateur
+    const { gender, firstname, lastname, nickname, origine, sectionId } =
+      await request.validateUsing(teacherValidator)
+    // Création du nouvel enseignant
+    await Teacher.create({ gender, firstname, lastname, nickname, origine, sectionId })
+    // Afficher un message à l'utilisateur
+    session.flash('success', 'Le nouvel enseignant a été ajouté avec succès !')
+    // Rediriger vers la homepage
+    return response.redirect().toRoute('home')
+  }
+
   /**
    * Afficher les détails d'un enseignant (y compris le nom de sa section)
    */
