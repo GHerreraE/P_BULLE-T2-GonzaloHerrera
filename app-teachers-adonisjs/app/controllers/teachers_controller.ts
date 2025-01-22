@@ -1,5 +1,6 @@
 import Teacher from '#models/teacher'
 import type { HttpContext } from '@adonisjs/core/http'
+import Section from '#models/section'
 export default class TeachersController {
   /**
    * Afficher la liste des enseignants

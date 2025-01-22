@@ -20,10 +20,6 @@
   </div>
   <nav>
     <a href="{{ route('home') }}">Accueil</a>&nbsp;
-    <a
-      onClick="return confirm(`Voulez-vous vraiment ajouter l'enseignant {{teacher.lastname }} {{ teacher.firstname }} ?`)"
-      href="{{ route('teacher.add', {id: teacher.id}) }}"
-      >Ajouter un enseignant</a
-    >
+    <a href="{{ route('teacher.create') }}"> Ajouter un enseignant</a>
   </nav>
 </header>
